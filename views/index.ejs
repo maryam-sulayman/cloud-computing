@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ASP Solutions Ltd – Product Portal</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+  
+  
+  <style>
+  body {
+    background-color: #1e1e2f;
+    color: #f1f1f1;
+    font-family: "Segoe UI", sans-serif;
+  }
+
+  .portal-container {
+    max-width: 700px; /* Wider form */
+    margin: 50px auto;
+    flex-grow: 1;
+  }
+
+  .card {
+    background-color: #2a2a3c;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  .navbar {
+    background-color: #12121a;
+  }
+
+  .navbar-brand {
+    color: #fff;
+    font-weight: bold;
+  }
+
+  .form-group {
+    margin-bottom: 20px; /* Adds space between fields */
+  }
+
+  .form-control,
+  .form-control-file,
+  select {
+    background-color: #3a3a4d;
+    border: 1px solid #555;
+    color: #fff;
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  .form-control::placeholder {
+    color: #aaa;
+  }
+
+  .btn-primary {
+    background-color: #E67E22;
+    border-color: #E67E22;
+    color: #fff;
+    font-weight: 600;
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+
+  .btn-primary:hover {
+    background-color: #CA6F1E;
+    border-color: #CA6F1E;
+  }
+
+  .footer {
+    background-color: #12121a;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 14px;
+    color: #888;
+    margin-top: auto;
+  }
+
+  .alert-success {
+    background-color: #264d36;
+    border-color: #2f6651;
+    color: #90ee90;
+    margin-top: 20px;
+    padding: 10px 15px;
+    border-radius: 5px;
+  }
+
+  label {
+    font-weight: 500;
+  }
+
+  h3 {
+    color: #fff;
+    margin-bottom: 25px;
+  }
+</style>
+
+  
+  
+  
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="#">ASP Solutions Ltd 💫</a>
+
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="portal-container">
+    <div class="card p-4">
+      <h3 class="mb-4">Upload New Product</h3>
+
+      <form action="/upload" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="productName">Product Name</label>
+          <input type="text" name="productName" class="form-control" placeholder="Enter product name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea name="description" class="form-control" rows="3" placeholder="Enter product description" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="price">Price (£)</label>
+          <input type="number" name="price" class="form-control" step="0.01" placeholder="Enter product price" required>
+        </div>
+
+        <div class="form-group">
+          <label for="type">Product Type</label>
+          <select name="type" class="form-control" required>
+            <option value="">Select type</option>
+            <option value="hardware">Hardware</option>
+            <option value="software">Software</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="productImage">Product Image</label>
+          <input type="file" name="productImage" class="form-control-file" accept="image/*" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Upload Product</button>
+      </form>
+
+      <% if (success) { %>
+        <div class="alert alert-success mt-4" role="alert">
+          ✅ Product uploaded successfully!
+        </div>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    &copy; <%= new Date().getFullYear() %> ASP Solutions Ltd. All rights reserved.
+  </div>
+
+</body>
+</html>
