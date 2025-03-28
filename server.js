@@ -7,44 +7,65 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
-
-// Serve static files (optional if you add CSS or JS later)
 app.use(express.static('public'));
+app.use('/uploads', express.static('uploads')); // Serve uploaded images
 
-// Display form with optional success message
+const PRODUCTS_FILE = path.join(__dirname, 'products.json');
+
+// Load existing products
+function loadProducts() {
+    if (fs.existsSync(PRODUCTS_FILE)) {
+        return JSON.parse(fs.readFileSync(PRODUCTS_FILE));
+    }
+    return [];
+}
+
+// Save products
+function saveProducts(products) {
+    fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(products, null, 2));
+}
+
 app.get('/', (req, res) => {
     const success = req.query.success === 'true';
-    res.render('index', { success });
+    const products = loadProducts();
+    res.render('index', { success, products });
 });
+
+app.get('/listings', (req, res) => {
+    const products = loadProducts();
+    res.render('listings', { products });
+  });
+  
 
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
         const dir = './uploads';
-        if (!fs.existsSync(dir)){
-            fs.mkdirSync(dir);
-        }
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir);
         callback(null, dir);
     },
     filename: function (req, file, callback) {
-        callback(null, Date.now() + '-' + file.originalname); // Unique filename
+        callback(null, Date.now() + '-' + file.originalname);
     }
 });
 
 const upload = multer({ storage: storage });
 
-// Handle form submission
 app.post('/upload', upload.single('productImage'), (req, res) => {
     const { productName, description, price, type } = req.body;
     const image = req.file;
 
-    console.log('New product uploaded:');
-    console.log('Name:', productName);
-    console.log('Type:', type);
-    console.log('Description:', description);
-    console.log('Price:', price);
-    console.log('Image file:', image.originalname);
+    const newProduct = {
+        productName,
+        description,
+        price,
+        type,
+        imageUrl: `/uploads/${image.filename}`
+    };
 
-    // Redirect to show success message
+    const products = loadProducts();
+    products.push(newProduct);
+    saveProducts(products);
+
     res.redirect('/?success=true');
 });
 

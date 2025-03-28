@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Product Listings – ASP Solutions Ltd</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      background-color: #1e1e2f;
+      color: #f1f1f1;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    .navbar {
+      background-color: #12121a;
+    }
+
+    .navbar-brand {
+      color: #fff;
+      font-weight: bold;
+    }
+    .card-text{
+        display: flex;
+        justify-content: space-between
+    }
+    .nav-link {
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      margin-left: 20px;
+    }
+
+    .nav-link.active {
+      color: #E67E22 !important;
+    }
+
+    .listing-container {
+      flex: 1;
+      padding-top: 40px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      color: #fff;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .card {
+      background-color: white;
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+      margin: 0 auto;
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+      }
+      
+
+    .card-body {
+      color: #2a2a3c;
+      padding: 15px 20px;
+      width: 250px;
+    }
+
+    .footer {
+      background-color: #12121a;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 14px;
+      color: #888;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container d-flex justify-content-between">
+      <a class="navbar-brand" href="/">ASP Solutions Ltd 💫</a>
+      <div>
+        <a class="nav-link d-inline" href="/">Add Product</a>
+        <a class="nav-link active d-inline" href="/listings">Listings</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="listing-container">
+    <h2>📦 Product Listings</h2>
+
+    <% if (products.length === 0) { %>
+      <p class="text-center">No products uploaded yet.</p>
+    <% } else { %>
+      <div class="row justify-content-center">
+        <% products.forEach(product => { %>
+          <div class="col-md-6 col-lg-4 mb-4 d-flex justify-content-center">
+            <div class="card">
+              <img src="<%= product.imageUrl %>" class="card-img-top" alt="Product Image">
+              <div class="card-body">
+                <h5 class="card-title card-text"><strong>Name:</strong> <%= product.productName %></h5>
+                <p class="card-text"><strong>Description:</strong> <%= product.description %></p>
+                <p class="card-text"><strong>Type:</strong> <%= product.type %></p>
+                <p class="card-text"><strong>Price:</strong> £<%= product.price %></p>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    &copy; <%= new Date().getFullYear() %> ASP Solutions Ltd. All rights reserved.
+  </div>
+
+</body>
+</html>
