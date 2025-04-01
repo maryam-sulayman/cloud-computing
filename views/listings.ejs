@@ -70,7 +70,6 @@
     .card-img-top {
         width: 100%;
         height: 180px;
-        object-fit: cover;
       }
       
 
@@ -115,7 +114,7 @@
             <div class="card">
                 <img class="card-img-top" src="<%= product.image_url %>" alt="Product Image" />
               <div class="card-body">
-                <h5 class="card-title card-text"><strong>Name:</strong> <%= product.productName %></h5>
+                <p class="card-title card-text"><strong>Name:</strong> <%= product.productName %></p>
                 <p class="card-text"><strong>Description:</strong> <%= product.description %></p>
                 <p class="card-text"><strong>Type:</strong> <%= product.type %></p>
                 <p class="card-text"><strong>Price:</strong> £<%= product.price %></p>
