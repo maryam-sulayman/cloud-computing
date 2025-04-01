@@ -1,8 +1,12 @@
+require('dotenv').config();
 const express = require('express');
-const multer  = require('multer');
+const multer = require('multer');
 const fs  = require('fs');
 const path = require('path');
 const db = require('./db');
+const AWS = require('aws-sdk');
+const multerS3 = require('multer-s3');
+
 
 db.query('SELECT 1', (err, results) => {
     if (err) console.error('❌ DB connection failed:', err);
@@ -46,25 +50,33 @@ app.get('/listings', (req, res) => {
     });
 });
 
-const storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        const dir = './uploads';
-        if (!fs.existsSync(dir)) fs.mkdirSync(dir); // create folder if it doesn't exist
-        callback(null, dir);
-    },
-    filename: function (req, file, callback) {
-        const safeName = file.originalname.replace(/\s+/g, '-'); // replace spaces with dashes
-        callback(null, Date.now() + '-' + safeName);
-    }
-});
+AWS.config.update({
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: process.env.AWS_REGION
+  });
+  
+  
+  const s3 = new AWS.S3();
 
-const upload = multer({ storage: storage });
+const upload = multer({
+    storage: multerS3({
+      s3: s3,
+      bucket: process.env.AWS_BUCKET_NAME,
+      acl: 'public-read', // Allows the file to be publicly readable
+      key: function (req, file, cb) {
+        const fileName = Date.now().toString() + '-' + file.originalname.replace(/\s+/g, '-');
+        cb(null, fileName);
+      }
+    })
+  });
+
 
 app.post('/upload', upload.single('productImage'), (req, res) => {
     const { productName, description, price, type } = req.body;
     const image = req.file;
 
-    const imageUrl = `/uploads/${image.filename}`; // Later you can swap this for the S3 URL
+    const imageUrl = req.file.location; // This is the S3 URL`;
 
     const sql = `
         INSERT INTO products (name, description, price, type, image_url)
@@ -80,5 +92,7 @@ app.post('/upload', upload.single('productImage'), (req, res) => {
         res.redirect('/?success=true');
     });
 });
+
+
 
 app.listen(3000, () => console.log('🚀 Server running on http://localhost:3000'));
