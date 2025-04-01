@@ -1,10 +1,10 @@
 const mysql = require('mysql2');
 
 const db = mysql.createConnection({
-  host: 'cloud-comp-1.ctuwgys0q06w.eu-west-2.rds.amazonaws.com',   // from RDS console
-  user: 'admin',                                  // or whatever you set
-  password: 'akEVV3qoyChKDDINbm0g',                   // you set this at creation
-  database: 'cloud_computing'                                    // or whatever you named it
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME                                   // or whatever you named it
 });
 
 db.connect((err) => {
