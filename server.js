@@ -46,15 +46,15 @@ app.get('/listings', (req, res) => {
     });
 });
 
-
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
         const dir = './uploads';
-        if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir); // create folder if it doesn't exist
         callback(null, dir);
     },
     filename: function (req, file, callback) {
-        callback(null, Date.now() + '-' + file.originalname);
+        const safeName = file.originalname.replace(/\s+/g, '-'); // replace spaces with dashes
+        callback(null, Date.now() + '-' + safeName);
     }
 });
 
