@@ -56,14 +56,17 @@
     }
 
     .card {
+        width: 250px; 
         background-color: white;
         border: none;
         border-radius: 10px;
         overflow: hidden;
         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
         margin: 0 auto;
-        width: 250px; 
+        display: flex;
+        flex-direction: column;
       }
+      
       
 
     .card-img-top {
@@ -112,7 +115,7 @@
         <% products.forEach(product => { %>
           <div class="col-md-6 col-lg-4 mb-4 d-flex justify-content-center">
             <div class="card">
-                <img src="<%= product.image_url %>" alt="Product Image" />
+                <img class="card-img-top" src="<%= product.image_url %>" alt="Product Image" />
               <div class="card-body">
                 <h5 class="card-title card-text"><strong>Name:</strong> <%= product.productName %></h5>
                 <p class="card-text"><strong>Description:</strong> <%= product.description %></p>
