@@ -62,8 +62,6 @@ AWS.config.update({
     storage: multerS3({
       s3: s3,
       bucket: process.env.AWS_BUCKET_NAME,
-      acl: 'public-read',
-      contentType: multerS3.AUTO_CONTENT_TYPE,
       key: function (req, file, cb) {
         const fileName = Date.now().toString() + '-' + file.originalname.replace(/\s+/g, '-');
         cb(null, fileName);
