@@ -92,6 +92,21 @@ app.post('/upload', upload.single('productImage'), (req, res) => {
     });
 });
 
+        app.post('/delete/:id', (req, res) => {
+            const productId = req.params.id;
+        
+            const sql = 'DELETE FROM products WHERE id = ?';
+            db.query(sql, [productId], (err, result) => {
+            if (err) {
+                console.error('Error deleting product:', err);
+                return res.status(500).send('Database error');
+            }
+        
+            res.redirect('/listings');
+            });
+        });
+        
+
 
 
 app.listen(3000, '0.0.0.0',() => console.log('🚀 Server running on http://localhost:3000'));
