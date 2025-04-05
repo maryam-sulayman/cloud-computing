@@ -15,8 +15,6 @@
     body {
       display: flex;
       flex-direction: column;
-      background-color: #1e1e2f;
-      color: #f1f1f1;
       font-family: "Segoe UI", sans-serif;
     }
 
@@ -47,10 +45,11 @@
     }
 
     .card {
-      background-color: #2a2a3c;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
       padding: 30px;
       border-radius: 12px;
-     width: 600px;
+      width: 600px;
+      margin-top: -25px;
     }
 
     .form-group {
@@ -60,9 +59,7 @@
     .form-control,
     .form-control-file,
     select {
-      background-color: #3a3a4d;
-      border: 1px solid #555;
-      color: #fff;
+      border: 1px solid #838181;
       font-size: 1rem;
       padding: 10px;
     }
@@ -76,7 +73,7 @@
       border-color: #E67E22;
       color: #fff;
       font-weight: 600;
-      padding: 12px 20px;
+      padding: 15px 20px;
       font-size: 1rem;
     }
 
@@ -86,12 +83,10 @@
     }
 
     label {
-      font-weight: 500;
+      font-weight: 600;
     }
 
     h3 {
-      color: #fff;
-      margin-bottom: 25px;
       text-align: center;
     }
 
@@ -112,6 +107,11 @@
       padding: 10px 15px;
       border-radius: 5px;
     }
+    .flex{
+      display: flex;
+      justify-content: space-between;
+      align-items:center;
+    }
   </style>
   
   
@@ -131,10 +131,9 @@
 
 
   <!-- Main Content -->
+  <h3 class="mb-0 mt-5 "> 📤 Upload New Product</h3>
   <div class="portal-container">
     <div class="card p-4">
-      <h3 class="mb-4">Upload New Product</h3>
-
       <form action="/upload" method="POST" enctype="multipart/form-data">
         <div class="form-group">
           <label for="productName">Product Name</label>
@@ -159,13 +158,15 @@
             <option value="software">Software</option>
           </select>
         </div>
-
+         <div class="flex">
         <div class="form-group">
           <label for="productImage">Product Image</label>
           <input type="file" name="productImage" class="form-control-file" accept="image/*" required>
         </div>
-
-        <button type="submit" class="btn btn-primary btn-block">Upload Product</button>
+        <div class="text-right">
+          <button type="submit" class="btn btn-primary submit-btn">Upload  ✔</button>
+        </div>
+      </div>
       </form>
 
       <% if (success) { %>
